@@ -1,6 +1,6 @@
-package github.rackdevelopment.managers;
+package github.rackdevelopment.intellect.managers;
 
-import github.rackdevelopment.Intellect;
+import github.rackdevelopment.intellect.Intellect;
 
 public class CommandManager {
 

@@ -1,16 +1,28 @@
-package github.rackdevelopment.logger;
+package github.rackdevelopment.intellect.logger;
 
 import com.sun.istack.internal.NotNull;
-import github.rackdevelopment.Intellect;
+import github.rackdevelopment.intellect.Intellect;
 import org.apache.commons.lang.exception.ExceptionUtils;
 
 import java.io.*;
 
+/**
+ * <h1>Intellect Logger</h1>
+ * The Intellect Logger is a spin-off of the default Spigot one, to provide some minor adjustments to fit out needs.
+ *
+ * @author RackDevelopment
+ * @version 1.0.2
+ */
 public class Logger {
 
     private final Intellect intellect;
     private final File errorFile, warningsFile;
 
+    /**
+     * Constructor for dependency injection and to check if the files are created or not.
+     *
+     * @param intellect the dependency injection way of getting the primary Class.
+     */
     public Logger(Intellect intellect) {
         this.intellect = intellect;
         errorFile = new File(intellect.getDataFolder(), "errors.txt");
@@ -23,6 +35,11 @@ public class Logger {
         }
     }
 
+    /**
+     * Generate an error that was into the system console and into the errors file
+     *
+     * @param throwable any form of exception
+     */
     public void error(@NotNull Throwable throwable) {
         System.out.println("[Intellect] [ERROR] Error occurred!");
         System.out.println(ExceptionUtils.getStackTrace(throwable));
@@ -39,6 +56,11 @@ public class Logger {
         }
     }
 
+    /**
+     * Generate a warning that is sent into the system console and saved to the warnings file
+     *
+     * @param reason a typed-out warning
+     */
     public void warn(String reason) {
         System.out.println("[Intellect] [WARN] " + reason);
         System.out.println("[Intellect] [INFO] Warning saved to warnings.txt");

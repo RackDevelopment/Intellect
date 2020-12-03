@@ -1,9 +1,8 @@
-package github.rackdevelopment;
+package github.rackdevelopment.intellect;
 
 import co.aikar.commands.PaperCommandManager;
-import github.rackdevelopment.logger.Logger;
+import github.rackdevelopment.intellect.logger.Logger;
 import lombok.Getter;
-import org.apache.commons.lang.exception.ExceptionUtils;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -18,7 +17,7 @@ import java.io.IOException;
  * Intellect provides an efficient design that allows to use on all types of servers, without impacting any performance.
  *
  * @author RackDevelopment
- * @version 1.0
+ * @version 1.0.1
  */
 public class Intellect extends JavaPlugin {
 
@@ -56,7 +55,7 @@ public class Intellect extends JavaPlugin {
      */
     private void registerMessagesConfiguration() {
         messages = new File(getDataFolder(), "messages.yml");
-        if(!messages.exists()) {
+        if (!messages.exists()) {
             messages.getParentFile().mkdirs();
             saveResource("messages.yml", false);
         }
@@ -64,7 +63,7 @@ public class Intellect extends JavaPlugin {
         try {
             messagesConfiguration.load(messages);
         } catch (IOException | InvalidConfigurationException e) {
-            ExceptionUtils.getStackTrace(e);
+            getLogger().error(e);
         }
     }
 
