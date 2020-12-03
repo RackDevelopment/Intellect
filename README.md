@@ -1,2 +1,2 @@
 # Intellect
-Intellect is an advanced logger for Spigot Servers
+Intellect is an advanced player logger for Spigot Servers
