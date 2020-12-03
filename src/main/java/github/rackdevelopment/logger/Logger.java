@@ -9,7 +9,7 @@ import java.io.*;
 public class Logger {
 
     private final Intellect intellect;
-    private File errorFile, warningsFile;
+    private final File errorFile, warningsFile;
 
     public Logger(Intellect intellect) {
         this.intellect = intellect;
@@ -27,7 +27,6 @@ public class Logger {
         System.out.println("[Intellect] [ERROR] Error occurred!");
         System.out.println(ExceptionUtils.getStackTrace(throwable));
         System.out.println("[Intellect] [INFO] Error saved to errors.txt");
-        errorFile = new File(intellect.getDataFolder(), "errors.txt");
         if (!errorFile.exists()) {
             errorFile.getParentFile().mkdirs();
             intellect.saveResource("errors.txt", false);
@@ -43,7 +42,6 @@ public class Logger {
     public void warn(String reason) {
         System.out.println("[Intellect] [WARN] " + reason);
         System.out.println("[Intellect] [INFO] Warning saved to warnings.txt");
-        warningsFile = new File(intellect.getDataFolder(), "warnings.txt");
         if (!errorFile.exists()) {
             warningsFile.getParentFile().mkdirs();
             intellect.saveResource("warnings.txt", false);
