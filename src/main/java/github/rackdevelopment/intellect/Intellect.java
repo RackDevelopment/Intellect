@@ -1,6 +1,7 @@
 package github.rackdevelopment.intellect;
 
 import co.aikar.commands.PaperCommandManager;
+import github.rackdevelopment.intellect.database.MongoManager;
 import github.rackdevelopment.intellect.logger.Logger;
 import lombok.Getter;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -28,6 +29,9 @@ public class Intellect extends JavaPlugin {
     private FileConfiguration messagesConfiguration;
     @Getter
     private Logger logger;
+    @Getter
+    private MongoManager mongoManager;
+
 
     /**
      * The primary method that is called when the plugin is fully loaded by the server.
@@ -39,9 +43,11 @@ public class Intellect extends JavaPlugin {
         logger = new Logger(this);
         registerDefaultConfiguration(); // The configuration must be registered first to do any checks in events or commands before the plugin is fully loaded.
         registerMessagesConfiguration();
+        registerDatabases();
         registerEvents();
         registerCommands();
     }
+
 
     /**
      * This method will set up the primary configuration for the plugin.
@@ -65,6 +71,13 @@ public class Intellect extends JavaPlugin {
         } catch (IOException | InvalidConfigurationException e) {
             getLogger().error(e);
         }
+    }
+
+    /**
+     * This method will create the instance of MongoManager, and then make sure it connects.
+     */
+    private void registerDatabases() {
+        mongoManager = new MongoManager(this);
     }
 
     /**
