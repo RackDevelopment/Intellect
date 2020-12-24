@@ -3,6 +3,7 @@ package github.rackdevelopment.intellect;
 import co.aikar.commands.PaperCommandManager;
 import github.rackdevelopment.intellect.database.MongoManager;
 import github.rackdevelopment.intellect.logger.Logger;
+import github.rackdevelopment.intellect.loggers.cache.Cache;
 import lombok.Getter;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -31,6 +32,8 @@ public class Intellect extends JavaPlugin {
     private Logger logger;
     @Getter
     private MongoManager mongoManager;
+    @Getter
+    private Cache cache;
 
 
     /**
@@ -78,6 +81,7 @@ public class Intellect extends JavaPlugin {
      */
     private void registerDatabases() {
         mongoManager = new MongoManager(this);
+        cache = new Cache();
     }
 
     /**

@@ -16,7 +16,7 @@ import java.io.*;
 public class Logger {
 
     private final Intellect intellect;
-    private final File errorFile, warningsFile;
+    private final File errorFile, warningsFile, debugFile;
 
     /**
      * Constructor for dependency injection and to check if the files are created or not.
@@ -27,6 +27,7 @@ public class Logger {
         this.intellect = intellect;
         errorFile = new File(intellect.getDataFolder(), "errors.txt");
         warningsFile = new File(intellect.getDataFolder(), "warnings.txt");
+        debugFile = new File(intellect.getDataFolder(), "debug.txt");
         if (errorFile.exists()) {
             System.out.println("[Intellect] [WARN] The errors.txt file exists! Please check the error and delete when it is solved.");
         }
@@ -52,7 +53,7 @@ public class Logger {
             Writer output = new BufferedWriter(new FileWriter(errorFile, true));
             output.append("[ERROR] Created at " + System.currentTimeMillis() + ", stacktrace: " + ExceptionUtils.getStackTrace(throwable));
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(ExceptionUtils.getStackTrace(e));
         }
     }
 
@@ -61,10 +62,10 @@ public class Logger {
      *
      * @param reason a typed-out warning
      */
-    public void warn(String reason) {
+    public void warn(@NotNull String reason) {
         System.out.println("[Intellect] [WARN] " + reason);
         System.out.println("[Intellect] [INFO] Warning saved to warnings.txt");
-        if (!errorFile.exists()) {
+        if (!warningsFile.exists()) {
             warningsFile.getParentFile().mkdirs();
             intellect.saveResource("warnings.txt", false);
         }
@@ -72,7 +73,28 @@ public class Logger {
             Writer output = new BufferedWriter(new FileWriter(warningsFile, true));
             output.append("[WARN] Created at " + System.currentTimeMillis() + ", reason: " + reason);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(ExceptionUtils.getStackTrace(e));
+        }
+    }
+
+    /**
+     *  Generate a debug statement
+     *
+     * @param debug a string input to print to the console
+     */
+    public void debug(String debug) {
+        if(!debugFile.exists()) {
+            debugFile.getParentFile().mkdirs();
+            intellect.saveResource("debug.txt", false);
+        }
+        if(intellect.getConfig().getBoolean("debug", false)) {
+            System.out.println("[Intellect/DEBUG] Created at " + System.currentTimeMillis() + ", statement: " + debug);
+        }
+        try {
+            Writer output = new BufferedWriter(new FileWriter(debugFile, true));
+            output.append("[DEBUG] Created at " + System.currentTimeMillis() + ", statement: " + debug);
+        } catch (IOException e) {
+            System.out.println(ExceptionUtils.getStackTrace(e));
         }
     }
 
